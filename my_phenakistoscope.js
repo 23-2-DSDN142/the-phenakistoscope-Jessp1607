@@ -1,49 +1,47 @@
-const SLICE_COUNT = 10;
+const SLICE_COUNT = 3;
 
 function setup_pScope(pScope){
   pScope.output_mode(ANIMATED_DISK);
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(true);
+  pScope.draw_slits(false)
   pScope.set_direction(CCW);
-  pScope.set_slice_count(SLICE_COUNT);
+  pScope.set_slice_count(18);
+  
+  pScope.load_image_sequence("elephant_walking" , "png", 9);
+  pScope.load_image_sequence("butterfly_flying" , "png", 20); 
+  pScope.load_image_sequence("flower_blooming" , "png", 8);
 }
 
 function setup_layers(pScope){
+ new PLayer(null, 68, 70, 100);  //lets us draw the whole circle background, ignoring the boundaries
 
-  new PLayer(null, 220);  //lets us draw the whole circle background, ignoring the boundaries
+  var flowerbloomingsequence = new PLayer(flower);
+  flowerbloomingsequence.mode(RING);
+  flowerbloomingsequence.set_boundary(0,500);
 
-  var layer1 = new PLayer(faces);
-  layer1.mode( SWIRL(5) );
-  layer1.set_boundary( 200, 1000 );
+  var elephantwalkingcycle = new PLayer(elephant);
+  elephantwalkingcycle.mode(RING);
+  elephantwalkingcycle.set_boundary(0, 1000 );
 
-  var layer2 = new PLayer(squares);
-  layer2.mode( RING );
-  layer2.set_boundary( 0, 400 );
+  var butterflyingsequence = new PLayer(butterfly);
+  butterflyingsequence.mode(SWIRL(1));
+  butterflyingsequence.set_boundary(0,300);
 }
 
-function faces(x, y, animation, pScope){
-  
-  scale(animation.frame*2);
-
-  ellipse(0,0,50,50); // draw head
-  fill(30);
-  ellipse(-10,-10,10,10); //draw eye
-  ellipse(10,-10,10,10); // draw eye
-  arc(0,10,20,10,0,180); // draw mouth
-
+function flower(x,y,animation, pScope){
+  scale(1);
+  pScope.draw_image_from_sequence("flower_blooming", 0, 1020, animation.frame);
 }
 
-function squares(x, y, animation, pScope){
-
-  // this is how you set up a background for a specific layer
-  let angleOffset = (360 / SLICE_COUNT) / 2
-  let backgroundArcStart = 270 - angleOffset;
-  let backgroundArcEnd = 270 + angleOffset;
-
-  fill(66, 135, 245)
-  arc(x,y,800,800,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
-
-  fill(255)
-  rect(-10,-300-animation.wave()*50,20,20) // .wave is a cosine wave btw
-
+function butterfly(x,y,animation,pScope){
+  translate(0, -850)
+  scale(0.4);
+  pScope.draw_image_from_sequence("butterfly_flying", 0, 800, animation.wave(200));
 }
+
+function elephant(x,y, animation, pScope){
+  translate(0,-850)
+scale(0.08)
+pScope.draw_image_from_sequence("elephant_walking", 0, 200, animation.frame);
+} 

@@ -1,49 +1,63 @@
 const SLICE_COUNT = 10;
 
 function setup_pScope(pScope){
-  pScope.output_mode(ANIMATED_DISK);
+  pScope.output_mode(OUTPUT_GIF(1000));
   pScope.scale_for_screen(true);
   pScope.draw_layer_boundaries(true);
+  pScope.draw_slits(false)
   pScope.set_direction(CCW);
-  pScope.set_slice_count(SLICE_COUNT);
+  pScope.set_slice_count(18);
+  
+  pScope.load_image_sequence("orange_flower", "png", 8);
+  pScope.load_image_sequence("pink_flower", "png", 8);
+  pScope.load_image_sequence("purple_flower", "png", 8);
+  pScope.load_image_sequence("butterfly_flying", "png", 20);
 }
 
 function setup_layers(pScope){
+ new PLayer(null, 68, 70, 100);  //lets us draw the whole circle background, ignoring the boundaries
 
-  new PLayer(null, 220);  //lets us draw the whole circle background, ignoring the boundaries
+  var flowerblooming = new PLayer(flower);
+  flowerblooming.mode(RING);
+  flowerblooming.set_boundary(0,1000);
 
-  var layer1 = new PLayer(faces);
-  layer1.mode( SWIRL(5) );
-  layer1.set_boundary( 200, 1000 );
+  var flowerblooming = new PLayer(pinkflower);
+  flowerblooming.mode(RING);
+  flowerblooming.set_boundary(0,1000);
 
-  var layer2 = new PLayer(squares);
-  layer2.mode( RING );
-  layer2.set_boundary( 0, 400 );
-}
+  var flowerblooming = new PLayer(purpleflower);
+  flowerblooming.mode(RING);
+  flowerblooming.set_boundary(0,1000);
 
-function faces(x, y, animation, pScope){
-  
-  scale(animation.frame*2);
-
-  ellipse(0,0,50,50); // draw head
-  fill(30);
-  ellipse(-10,-10,10,10); //draw eye
-  ellipse(10,-10,10,10); // draw eye
-  arc(0,10,20,10,0,180); // draw mouth
+  var butterfliesflying= new PLayer(butterflies);
+  butterfliesflying.mode(RING);
+  butterfliesflying.set_boundary(500,1000);
 
 }
 
-function squares(x, y, animation, pScope){
+function flower(x,y,animation, pScope){
+  scale(1)
+  pScope.draw_image_from_sequence("orange_flower",0, 960, animation.frame);
 
-  // this is how you set up a background for a specific layer
-  let angleOffset = (360 / SLICE_COUNT) / 2
-  let backgroundArcStart = 270 - angleOffset;
-  let backgroundArcEnd = 270 + angleOffset;
+}
 
-  fill(66, 135, 245)
-  arc(x,y,800,800,backgroundArcStart,backgroundArcEnd); // draws "pizza slice" in the background
+function pinkflower(x,y,animation, pScope){
+  scale(1)
+  pScope.draw_image_from_sequence("pink_flower",100, 960, animation.frame);
 
-  fill(255)
-  rect(-10,-300-animation.wave()*50,20,20) // .wave is a cosine wave btw
+  }
 
+function purpleflower(x,y,animation, pScope){
+  scale(1)
+  pScope.draw_image_from_sequence("purple_flower",200, 960, animation.frame);
+}
+
+function butterflies (x,y,animation, pScope){
+  scale(0.3)
+  pScope.draw_image_from_sequence("butterfly_flying",500, 500, animation.frame);
+}
+
+function butterflies (x,y,animation, pScope){
+  scale(0.5)
+  pScope.draw_image_from_sequence("butterfly_flying",600,600, animation.frame);
 }

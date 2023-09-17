@@ -8,40 +8,56 @@ function setup_pScope(pScope){
   pScope.set_direction(CCW);
   pScope.set_slice_count(18);
   
-  pScope.load_image_sequence("elephant_walking" , "png", 9);
-  pScope.load_image_sequence("butterfly_flying" , "png", 20); 
-  pScope.load_image_sequence("flower_blooming" , "png", 8);
+  pScope.load_image_sequence("orange_flower", "png", 8);
+  pScope.load_image_sequence("pink_flower", "png", 8);
+  pScope.load_image_sequence("purple_flower", "png", 8);
+  pScope.load_image_sequence("butterfly_flying", "png", 20);
 }
 
 function setup_layers(pScope){
  new PLayer(null, 68, 70, 100);  //lets us draw the whole circle background, ignoring the boundaries
 
-  var flowerbloomingsequence = new PLayer(flower);
-  flowerbloomingsequence.mode(RING);
-  flowerbloomingsequence.set_boundary(0,500);
+  var flowerblooming = new PLayer(flower);
+  flowerblooming.mode(RING);
+  flowerblooming.set_boundary(0,1000);
 
-  var elephantwalkingcycle = new PLayer(elephant);
-  elephantwalkingcycle.mode(RING);
-  elephantwalkingcycle.set_boundary(0, 1000 );
+  var flowerblooming = new PLayer(pinkflower);
+  flowerblooming.mode(RING);
+  flowerblooming.set_boundary(0,1000);
 
-  var butterflyingsequence = new PLayer(butterfly);
-  butterflyingsequence.mode(SWIRL(1));
-  butterflyingsequence.set_boundary(0,300);
+  var flowerblooming = new PLayer(purpleflower);
+  flowerblooming.mode(RING);
+  flowerblooming.set_boundary(0,1000);
+
+  var butterfliesflying= new PLayer(butterflies);
+  butterfliesflying.mode(RING);
+  butterfliesflying.set_boundary(500,1000);
+
 }
 
 function flower(x,y,animation, pScope){
-  scale(1);
-  pScope.draw_image_from_sequence("flower_blooming", 0, 1020, animation.frame);
+  scale(1)
+  pScope.draw_image_from_sequence("orange_flower",0, 960, animation.frame);
+
 }
 
-function butterfly(x,y,animation,pScope){
-  translate(0, -850)
-  scale(0.4);
-  pScope.draw_image_from_sequence("butterfly_flying", 0, 800, animation.wave(200));
+function pinkflower(x,y,animation, pScope){
+  scale(1)
+  pScope.draw_image_from_sequence("pink_flower",100, 960, animation.frame);
+
+  }
+
+function purpleflower(x,y,animation, pScope){
+  scale(1)
+  pScope.draw_image_from_sequence("purple_flower",200, 960, animation.frame);
 }
 
-function elephant(x,y, animation, pScope){
-  translate(0,-850)
-scale(0.08)
-pScope.draw_image_from_sequence("elephant_walking", 0, 200, animation.frame);
-} 
+function butterflies (x,y,animation, pScope){
+  scale(0.3)
+  pScope.draw_image_from_sequence("butterfly_flying",500, 500, animation.frame);
+}
+
+function butterflies (x,y,animation, pScope){
+  scale(0.5)
+  pScope.draw_image_from_sequence("butterfly_flying",600,600, animation.frame);
+}
